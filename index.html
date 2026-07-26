@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Titouz — Développeur web &amp; Cybersécurité</title>
+<meta name="description" content="Portfolio de Titouz — étudiant en informatique, développeur web et futur alternant en cybersécurité.">
+<meta property="og:title" content="Titouz — Développeur web & futur alternant cybersécurité">
+<meta property="og:description" content="Projets web, réseaux, systèmes et cybersécurité.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231D5B6E'/%3E%3Ctext x='50' y='69' font-family='Georgia,serif' font-size='58' fill='white' text-anchor='middle'%3ET%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F8FA;
+    --bg-alt:#EFF2F5;
+    --surface:#FFFFFF;
+    --border:#E2E6EB;
+    --ink:#12161C;
+    --ink-muted:#5B6472;
+    --accent:#1D5B6E;
+    --accent-strong:#123E4A;
+    --accent-soft:#E4EEF0;
+    --status:#1F7A45;
+
+    --font-display:'Space Grotesk', system-ui, sans-serif;
+    --font-body:'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono:'IBM Plex Mono', ui-monospace, monospace;
+
+    --fs-hero: clamp(2.5rem, 6.4vw, 4.5rem);
+    --fs-h2: clamp(1.65rem, 3.4vw, 2.35rem);
+    --fs-body: 1rem;
+
+    --sp-1:.5rem; --sp-2:1rem; --sp-3:1.5rem; --sp-4:2rem;
+    --sp-5:3rem; --sp-6:4.5rem; --sp-7:6rem;
+
+    --radius: 14px;
+    --container: 1120px;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:var(--fs-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; margin:0; padding:0; }
+  h1,h2,h3{ font-family:var(--font-display); margin:0; line-height:1.15; letter-spacing:-0.01em; }
+  p{ margin:0; }
+
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
+
+  .container{ max-width:var(--container); margin-inline:auto; padding-inline:clamp(1.25rem, 4vw, 2.5rem); }
+  .eyebrow{
+    font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase;
+    letter-spacing:.09em; color:var(--accent-strong); display:inline-flex; align-items:center; gap:.5rem;
+  }
+  .eyebrow::before{ content:""; width:8px; height:8px; border-radius:50%; background:var(--accent); display:inline-block; }
+
+  /* ---------- NAV ---------- */
+  .navbar{
+    position:sticky; top:0; z-index:50;
+    background:rgba(247,248,250,.82);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding-block:1rem; }
+  .brand{ font-family:var(--font-display); font-weight:600; font-size:1.15rem; }
+  .brand span{ color:var(--accent); }
+  .nav-links{ display:flex; gap:var(--sp-4); }
+  .nav-links a{
+    font-size:.92rem; color:var(--ink-muted); position:relative; padding-block:.25rem;
+    transition:color .2s ease;
+  }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:-2px; width:0; height:1.5px; background:var(--accent);
+    transition:width .25s ease;
+  }
+  .nav-links a:hover{ color:var(--ink); }
+  .nav-links a:hover::after{ width:100%; }
+  .nav-right{ display:flex; align-items:center; gap:.85rem; }
+  .lang-toggle{
+    font-family:var(--font-mono); font-size:.75rem; letter-spacing:.04em;
+    border:1px solid var(--border); background:var(--surface); color:var(--ink);
+    border-radius:999px; padding:.4rem .8rem; cursor:pointer; transition:border-color .2s ease, color .2s ease;
+  }
+  .lang-toggle:hover{ border-color:var(--accent); color:var(--accent-strong); }
+  .nav-toggle{
+    display:none; width:38px; height:38px; border-radius:8px; border:1px solid var(--border);
+    background:var(--surface); cursor:pointer; position:relative;
+  }
+  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
+    content:""; position:absolute; left:9px; right:9px; height:2px; background:var(--ink);
+    transition:transform .2s ease, opacity .2s ease;
+  }
+  .nav-toggle span{ top:18px; }
+  .nav-toggle span::before{ top:-6px; }
+  .nav-toggle span::after{ top:6px; }
+  .navbar.menu-open .nav-toggle span{ background:transparent; }
+  .navbar.menu-open .nav-toggle span::before{ transform:translateY(6px) rotate(45deg); }
+  .navbar.menu-open .nav-toggle span::after{ transform:translateY(-6px) rotate(-45deg); }
+
+  @media (max-width:760px){
+    .nav-links{
+      position:absolute; top:100%; left:0; right:0; background:var(--surface);
+      flex-direction:column; gap:0; border-bottom:1px solid var(--border);
+      display:none; padding:.5rem clamp(1.25rem,4vw,2.5rem) 1rem;
+    }
+    .navbar.menu-open .nav-links{ display:flex; }
+    .nav-links a{ padding-block:.75rem; border-bottom:1px solid var(--border); }
+    .nav-links a:last-child{ border-bottom:none; }
+    .nav-toggle{ display:inline-block; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{ position:relative; overflow:hidden; padding-block:var(--sp-7) var(--sp-6); }
+  .hero-grid{ display:grid; grid-template-columns:1.15fr .85fr; gap:var(--sp-5); align-items:center; }
+  .hero h1{ font-size:var(--fs-hero); margin-block:.9rem .9rem; }
+  .hero-tagline{ max-width:46ch; color:var(--ink-muted); font-size:1.08rem; }
+  .hero-actions{ display:flex; flex-wrap:wrap; gap:1rem; margin-top:var(--sp-4); }
+  .btn{
+    font-family:var(--font-body); font-weight:500; font-size:.95rem;
+    padding:.85rem 1.5rem; border-radius:999px; border:1px solid transparent; cursor:pointer;
+    transition:transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+    display:inline-flex; align-items:center; gap:.5rem;
+  }
+  .btn-primary{ background:var(--accent); color:#fff; }
+  .btn-primary:hover{ background:var(--accent-strong); transform:translateY(-2px); box-shadow:0 10px 24px -10px rgba(18,62,74,.55); }
+  .btn-ghost{ border-color:var(--border); color:var(--ink); background:var(--surface); }
+  .btn-ghost:hover{ border-color:var(--accent); color:var(--accent-strong); transform:translateY(-2px); }
+
+  .hero-social{ display:flex; gap:.75rem; margin-top:var(--sp-5); flex-wrap:wrap; }
+  .social-pill{
+    font-family:var(--font-mono); font-size:.78rem; border:1px solid var(--border);
+    border-radius:999px; padding:.5rem 1rem; color:var(--ink-muted); transition:all .2s ease;
+  }
+  .social-pill:hover{ border-color:var(--accent); color:var(--accent-strong); }
+
+  .hero-graphic{ position:relative; }
+  .hero-graphic svg{ width:100%; height:auto; }
+  .hero-graphic .node{ opacity:0; animation:nodePop .5s ease forwards; }
+  .hero-graphic .edge{ opacity:0; animation:edgeFade .6s ease forwards; }
+  .hero-graphic .hub{ fill:var(--accent); }
+  @keyframes nodePop{ from{ opacity:0; transform:scale(.4); } to{ opacity:1; transform:scale(1); } }
+  @keyframes edgeFade{ from{ opacity:0; } to{ opacity:1; } }
+  @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; } .hero-graphic{ display:none; } }
+
+  /* ---------- SECTIONS ---------- */
+  .section{ padding-block:var(--sp-7); border-bottom:1px solid var(--border); }
+  .section.alt{ background:var(--bg-alt); }
+  .section-head{ max-width:56ch; margin-bottom:var(--sp-5); }
+  .section-head h2{ font-size:var(--fs-h2); margin-top:.6rem; }
+  .section-head p{ color:var(--ink-muted); margin-top:.75rem; }
+
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+
+  /* About */
+  .about-body{ display:grid; grid-template-columns:1fr; gap:1.25rem; max-width:74ch; }
+  .about-body p{ color:var(--ink-muted); font-size:1.02rem; }
+  .about-body strong{ color:var(--ink); font-weight:600; }
+
+  /* Skills */
+  .skills-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:var(--sp-3); }
+  .skill-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:var(--sp-3); transition:border-color .2s ease, transform .2s ease;
+  }
+  .skill-card:hover{ border-color:var(--accent); transform:translateY(-3px); }
+  .skill-card h3{ font-size:1rem; margin-bottom:.9rem; }
+  .skill-tags{ display:flex; flex-wrap:wrap; gap:.5rem; }
+  .tag{
+    font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.05em;
+    background:var(--accent-soft); color:var(--accent-strong); padding:.3rem .65rem; border-radius:999px;
+  }
+
+  /* Projects */
+  .projects-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:var(--sp-3); }
+  .project-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:var(--sp-4); display:flex; flex-direction:column; gap:.9rem;
+    transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .project-card:hover{ transform:translateY(-5px); border-color:var(--accent); box-shadow:0 16px 34px -18px rgba(18,62,74,.35); }
+  .project-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:.75rem; }
+  .project-card h3{ font-size:1.15rem; }
+  .project-card .cat{ font-family:var(--font-mono); font-size:.72rem; color:var(--accent); text-transform:uppercase; letter-spacing:.05em; }
+  .project-card p.desc{ color:var(--ink-muted); font-size:.94rem; flex-grow:1; }
+  .project-tags{ display:flex; flex-wrap:wrap; gap:.4rem; }
+  .project-link{
+    font-family:var(--font-mono); font-size:.78rem; color:var(--accent-strong); align-self:flex-start;
+    border-bottom:1px solid var(--accent); padding-bottom:2px; transition:opacity .2s ease;
+  }
+  .project-link:hover{ opacity:.65; }
+
+  /* Journey / timeline */
+  .timeline{ position:relative; max-width:70ch; }
+  .timeline::before{
+    content:""; position:absolute; left:9px; top:6px; bottom:6px; width:1.5px; background:var(--border);
+  }
+  .timeline-item{ position:relative; padding-left:2.5rem; padding-bottom:var(--sp-4); }
+  .timeline-item:last-child{ padding-bottom:0; }
+  .timeline-dot{
+    position:absolute; left:0; top:4px; width:20px; height:20px; border-radius:50%;
+    background:var(--surface); border:2px solid var(--accent); display:flex; align-items:center; justify-content:center;
+  }
+  .timeline-item.done .timeline-dot::after{ content:""; width:8px; height:8px; border-radius:50%; background:var(--accent); }
+  .timeline-item.current .timeline-dot{ border-color:var(--status); box-shadow:0 0 0 4px rgba(31,122,69,.15); }
+  .timeline-item.current .timeline-dot::after{ content:""; width:8px; height:8px; border-radius:50%; background:var(--status); }
+  .timeline-item.upcoming .timeline-dot{ border-style:dashed; border-color:var(--ink-muted); }
+  .timeline-head{ display:flex; align-items:center; gap:.65rem; flex-wrap:wrap; }
+  .timeline-head h3{ font-size:1.02rem; }
+  .badge{
+    font-family:var(--font-mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.05em;
+    padding:.2rem .55rem; border-radius:999px;
+  }
+  .badge.current{ background:rgba(31,122,69,.12); color:var(--status); }
+  .badge.upcoming{ background:var(--bg-alt); color:var(--ink-muted); border:1px dashed var(--border); }
+  .timeline-item p{ color:var(--ink-muted); font-size:.92rem; margin-top:.4rem; max-width:52ch; }
+
+  /* Contact */
+  .contact-wrap{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:var(--sp-4); }
+  .contact-actions{ display:flex; flex-wrap:wrap; gap:.9rem; }
+
+  /* Footer */
+  footer{ padding-block:var(--sp-4); }
+  .footer-inner{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:1rem; align-items:center; }
+  .footer-text{ color:var(--ink-muted); font-size:.85rem; }
+  .status-pill{
+    font-family:var(--font-mono); font-size:.75rem; color:var(--status); display:inline-flex; align-items:center; gap:.5rem;
+  }
+  .status-pill::before{ content:""; width:8px; height:8px; border-radius:50%; background:var(--status); box-shadow:0 0 0 3px rgba(31,122,69,.18); }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+    html{ scroll-behavior:auto; }
+    .reveal{ opacity:1; transform:none; }
+    .hero-graphic .node, .hero-graphic .edge{ opacity:1; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="#hero" class="brand">Titouz<span>.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" data-i18n="nav.about">À propos</a></li>
+      <li><a href="#skills" data-i18n="nav.skills">Compétences</a></li>
+      <li><a href="#projects" data-i18n="nav.projects">Projets</a></li>
+      <li><a href="#journey" data-i18n="nav.journey">Parcours</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="lang-toggle" id="langToggle" aria-label="Switch to English">EN</button>
+      <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <section class="hero" id="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow" data-i18n="hero.eyebrow">Étudiant en informatique — Cybersécurité &amp; dév. web</span>
+        <h1>Titouz</h1>
+        <p class="hero-tagline" data-i18n="hero.tagline">Développeur web et futur alternant en cybersécurité. J'aime comprendre comment les systèmes fonctionnent — et comment ils tombent.</p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary" data-i18n="hero.cta_projects">Voir mes projets</a>
+          <a href="#contact" class="btn btn-ghost" data-i18n="hero.cta_contact">Me contacter</a>
+        </div>
+        <div class="hero-social">
+          <a class="social-pill" href="https://github.com/ton-pseudo" target="_blank" rel="noopener">GitHub ↗</a>
+          <a class="social-pill" href="https://linkedin.com/in/ton-profil" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a class="social-pill" href="mailto:ton.email@example.com">Email ↗</a>
+        </div>
+      </div>
+      <div class="hero-graphic" aria-hidden="true">
+        <svg viewBox="0 0 480 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="var(--accent)" stroke-width="1.2" opacity=".45">
+            <line class="edge" style="animation-delay:.65s" x1="50" y1="70" x2="160" y2="40"/>
+            <line class="edge" style="animation-delay:.7s" x1="160" y1="40" x2="270" y2="75"/>
+            <line class="edge" style="animation-delay:.75s" x1="270" y1="75" x2="390" y2="55"/>
+            <line class="edge" style="animation-delay:.8s" x1="390" y1="55" x2="430" y2="150"/>
+            <line class="edge" style="animation-delay:.85s" x1="430" y1="150" x2="350" y2="230"/>
+            <line class="edge" style="animation-delay:.9s" x1="350" y1="230" x2="270" y2="75"/>
+            <line class="edge" style="animation-delay:.95s" x1="350" y1="230" x2="230" y2="270"/>
+            <line class="edge" style="animation-delay:1s" x1="230" y1="270" x2="120" y2="235"/>
+            <line class="edge" style="animation-delay:1.05s" x1="120" y1="235" x2="40" y2="150"/>
+            <line class="edge" style="animation-delay:1.1s" x1="40" y1="150" x2="50" y2="70"/>
+            <line class="edge" style="animation-delay:1.15s" x1="230" y1="270" x2="300" y2="340"/>
+            <line class="edge" style="animation-delay:1.2s" x1="300" y1="340" x2="170" y2="360"/>
+            <line class="edge" style="animation-delay:1.25s" x1="170" y1="360" x2="80" y2="310"/>
+            <line class="edge" style="animation-delay:1.3s" x1="80" y1="310" x2="120" y2="235"/>
+            <line class="edge" style="animation-delay:1.35s" x1="160" y1="40" x2="40" y2="150"/>
+            <line class="edge" style="animation-delay:1.4s" x1="270" y1="75" x2="230" y2="270"/>
+          </g>
+          <g>
+            <circle class="node" style="animation-delay:0s" cx="50" cy="70" r="5" fill="var(--ink-muted)"/>
+            <circle class="node" style="animation-delay:.05s" cx="160" cy="40" r="5" fill="var(--ink-muted)"/>
+            <circle class="node hub" style="animation-delay:.1s" cx="270" cy="75" r="8"/>
+            <circle class="node" style="animation-delay:.15s" cx="390" cy="55" r="5" fill="var(--ink-muted)"/>
+            <circle class="node" style="animation-delay:.2s" cx="430" cy="150" r="5" fill="var(--ink-muted)"/>
+            <circle class="node" style="animation-delay:.25s" cx="350" cy="230" r="6" fill="var(--accent)"/>
+            <circle class="node" style="animation-delay:.3s" cx="230" cy="270" r="6" fill="var(--accent)"/>
+            <circle class="node" style="animation-delay:.35s" cx="120" cy="235" r="5" fill="var(--ink-muted)"/>
+            <circle class="node" style="animation-delay:.4s" cx="40" cy="150" r="5" fill="var(--ink-muted)"/>
+            <circle class="node" style="animation-delay:.45s" cx="300" cy="340" r="5" fill="var(--ink-muted)"/>
+            <circle class="node" style="animation-delay:.5s" cx="170" cy="360" r="5" fill="var(--ink-muted)"/>
+            <circle class="node" style="animation-delay:.55s" cx="80" cy="310" r="5" fill="var(--ink-muted)"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow" data-i18n="about.eyebrow">à propos</span>
+        <h2 data-i18n="about.heading">Construire, comprendre, sécuriser</h2>
+      </div>
+      <div class="about-body reveal">
+        <p data-i18n="about.p1">Étudiant en informatique, je me suis formé au développement web (PHP, JavaScript, HTML/CSS) à travers plusieurs projets personnels et scolaires, avant d'élargir mon terrain de jeu aux réseaux (Cisco, Packet Tracer) et à l'administration Linux. Je me prépare aujourd'hui à intégrer une formation en cybersécurité, en parallèle d'un stage qui me permet de mettre en pratique ce que j'apprends.</p>
+        <p data-i18n="about.p2">Ce qui m'anime : comprendre un système jusqu'au bout — de la requête HTTP à la table de routage — pour mieux le construire, et mieux le protéger.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="skills">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow" data-i18n="skills.eyebrow">compétences</span>
+        <h2 data-i18n="skills.heading">Ce que je sais faire</h2>
+      </div>
+      <div class="skills-grid reveal">
+        <div class="skill-card">
+          <h3 data-i18n="skills.cat1">Développement Web</h3>
+          <div class="skill-tags">
+            <span class="tag">PHP</span><span class="tag">JavaScript</span>
+            <span class="tag">HTML / CSS</span><span class="tag">MySQL / PDO</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3 data-i18n="skills.cat2">Réseaux</h3>
+          <div class="skill-tags">
+            <span class="tag">Cisco IOS</span><span class="tag">Packet Tracer</span>
+            <span class="tag">Subnetting</span><span class="tag">RIP / DHCP</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3 data-i18n="skills.cat3">Systèmes &amp; Linux</h3>
+          <div class="skill-tags">
+            <span class="tag">Fedora</span><span class="tag">Administration Linux</span>
+            <span class="tag">Zsh / Shell</span><span class="tag">KVM</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3 data-i18n="skills.cat4">Outils Cybersécurité</h3>
+          <div class="skill-tags">
+            <span class="tag">Kali Linux</span><span class="tag">Metasploitable2</span>
+            <span class="tag">Shodan CLI</span><span class="tag">Maltego</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow" data-i18n="projects.eyebrow">projets</span>
+        <h2 data-i18n="projects.heading">Une sélection de projets</h2>
+        <p data-i18n="projects.sub">Projets personnels et collaboratifs, du web classique aux outils plus expérimentaux.</p>
+      </div>
+      <div class="projects-grid reveal">
+
+        <article class="project-card">
+          <div class="project-top">
+            <div>
+              <h3>Invader</h3>
+              <span class="cat" data-i18n="projects.p1.cat">Application web · PHP/MySQL</span>
+            </div>
+          </div>
+          <p class="desc" data-i18n="projects.p1.desc">Plateforme de petites annonces inspirée des sites de vente entre particuliers : inscription et connexion complètes, messagerie interne entre utilisateurs, et gestion des sessions sécurisée avec PDO.</p>
+          <div class="project-tags">
+            <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">PDO</span><span class="tag">Sessions</span>
+          </div>
+          <a class="project-link" href="#" data-i18n="projects.link">Code source →</a>
+        </article>
+
+        <article class="project-card">
+          <div class="project-top">
+            <div>
+              <h3 data-i18n="projects.p2.title">Quiz collaboratif</h3>
+              <span class="cat" data-i18n="projects.p2.cat">Application web · Sécurité applicative</span>
+            </div>
+          </div>
+          <p class="desc" data-i18n="projects.p2.desc">Application de quiz en ligne collaborative dotée d'un système anti-triche : verrouillage plein écran, détection de changement d'onglet et minuteur de compte à rebours. Gestion des profils migrée vers PDO.</p>
+          <div class="project-tags">
+            <span class="tag">PHP</span><span class="tag">JavaScript</span><span class="tag">PDO</span>
+          </div>
+          <a class="project-link" href="#" data-i18n="projects.link">Code source →</a>
+        </article>
+
+        <article class="project-card">
+          <div class="project-top">
+            <div>
+              <h3>P'tite Bouze</h3>
+              <span class="cat" data-i18n="projects.p3.cat">Outil local · IA multi-agents</span>
+            </div>
+          </div>
+          <p class="desc" data-i18n="projects.p3.desc">Routeur multi-agents pour modèles de langage exécutés en local via Ollama, avec une interface Tkinter et une exécution de commandes shell encadrée par des filtres de sécurité.</p>
+          <div class="project-tags">
+            <span class="tag">Python</span><span class="tag">Tkinter</span><span class="tag">Ollama</span><span class="tag">LLM</span>
+          </div>
+          <a class="project-link" href="#" data-i18n="projects.link">Code source →</a>
+        </article>
+
+        <article class="project-card">
+          <div class="project-top">
+            <div>
+              <h3>Blue Protocol</h3>
+              <span class="cat" data-i18n="projects.p4.cat">Jeu vidéo · Unreal Engine 5 (co-développement)</span>
+            </div>
+          </div>
+          <p class="desc" data-i18n="projects.p4.desc">Jeu d'horreur coopératif à la première personne développé avec un collègue sous Unreal Engine 5, aux mécaniques basées sur les miroirs. J'ai également conçu la page web de présentation du jeu, à l'esthétique tactique et sombre.</p>
+          <div class="project-tags">
+            <span class="tag">Unreal Engine 5</span><span class="tag">Game Design</span><span class="tag">HTML/CSS/JS</span>
+          </div>
+          <a class="project-link" href="#" data-i18n="projects.link">Code source →</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="journey">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow" data-i18n="journey.eyebrow">parcours</span>
+        <h2 data-i18n="journey.heading">Comment j'en suis arrivé là</h2>
+      </div>
+      <div class="timeline reveal">
+        <div class="timeline-item done">
+          <span class="timeline-dot"></span>
+          <div class="timeline-head"><h3 data-i18n="journey.i1.title">Développement web</h3></div>
+          <p data-i18n="journey.i1.desc">Premiers projets en PHP, JavaScript et MySQL : plateformes web complètes, de l'inscription à la messagerie.</p>
+        </div>
+        <div class="timeline-item done">
+          <span class="timeline-dot"></span>
+          <div class="timeline-head"><h3 data-i18n="journey.i2.title">Réseaux &amp; infrastructure</h3></div>
+          <p data-i18n="journey.i2.desc">Labs Cisco sur Packet Tracer : configuration RIP, subnetting, DHCP — les bases de l'administration réseau.</p>
+        </div>
+        <div class="timeline-item done">
+          <span class="timeline-dot"></span>
+          <div class="timeline-head"><h3 data-i18n="journey.i3.title">Systèmes &amp; Linux</h3></div>
+          <p data-i18n="journey.i3.desc">Administration et personnalisation d'environnements Linux (Fedora), virtualisation avec KVM.</p>
+        </div>
+        <div class="timeline-item done">
+          <span class="timeline-dot"></span>
+          <div class="timeline-head"><h3 data-i18n="journey.i4.title">Cybersécurité — prise en main</h3></div>
+          <p data-i18n="journey.i4.desc">Environnement de test avec Kali Linux et Metasploitable2, reconnaissance avec Shodan et Maltego.</p>
+        </div>
+        <div class="timeline-item current">
+          <span class="timeline-dot"></span>
+          <div class="timeline-head">
+            <h3 data-i18n="journey.i5.title">Stage</h3>
+            <span class="badge current" data-i18n="journey.badge_current">En cours</span>
+          </div>
+          <p data-i18n="journey.i5.desc">Mise en pratique professionnelle des compétences en développement et en systèmes.</p>
+        </div>
+        <div class="timeline-item upcoming">
+          <span class="timeline-dot"></span>
+          <div class="timeline-head">
+            <h3 data-i18n="journey.i6.title">Formation en cybersécurité</h3>
+            <span class="badge upcoming" data-i18n="journey.badge_upcoming">À venir</span>
+          </div>
+          <p data-i18n="journey.i6.desc">Prochaine étape : intégration d'une formation spécialisée en cybersécurité.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="contact-wrap reveal">
+        <div class="section-head" style="margin-bottom:0;">
+          <span class="eyebrow" data-i18n="contact.eyebrow">contact</span>
+          <h2 data-i18n="contact.heading">Discutons</h2>
+          <p data-i18n="contact.text">Ouvert aux opportunités de stage, d'alternance ou de collaboration. N'hésite pas à me contacter.</p>
+        </div>
+        <div class="contact-actions">
+          <a class="btn btn-primary" href="mailto:ton.email@example.com" data-i18n="contact.email">M'écrire</a>
+          <a class="btn btn-ghost" href="https://github.com/ton-pseudo" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn btn-ghost" href="https://linkedin.com/in/ton-profil" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <span class="footer-text" data-i18n="footer.text">© 2026 Titouz — Conçu et développé à la main.</span>
+    <span class="status-pill" data-i18n="footer.status">Disponible pour un stage ou une alternance</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const translations = {
+    fr: {
+      "nav.about":"À propos","nav.skills":"Compétences","nav.projects":"Projets","nav.journey":"Parcours","nav.contact":"Contact",
+      "hero.eyebrow":"Étudiant en informatique — Cybersécurité & dév. web",
+      "hero.tagline":"Développeur web et futur alternant en cybersécurité. J'aime comprendre comment les systèmes fonctionnent — et comment ils tombent.",
+      "hero.cta_projects":"Voir mes projets","hero.cta_contact":"Me contacter",
+      "about.eyebrow":"à propos","about.heading":"Construire, comprendre, sécuriser",
+      "about.p1":"Étudiant en informatique, je me suis formé au développement web (PHP, JavaScript, HTML/CSS) à travers plusieurs projets personnels et scolaires, avant d'élargir mon terrain de jeu aux réseaux (Cisco, Packet Tracer) et à l'administration Linux. Je me prépare aujourd'hui à intégrer une formation en cybersécurité, en parallèle d'un stage qui me permet de mettre en pratique ce que j'apprends.",
+      "about.p2":"Ce qui m'anime : comprendre un système jusqu'au bout — de la requête HTTP à la table de routage — pour mieux le construire, et mieux le protéger.",
+      "skills.eyebrow":"compétences","skills.heading":"Ce que je sais faire",
+      "skills.cat1":"Développement Web","skills.cat2":"Réseaux","skills.cat3":"Systèmes & Linux","skills.cat4":"Outils Cybersécurité",
+      "projects.eyebrow":"projets","projects.heading":"Une sélection de projets",
+      "projects.sub":"Projets personnels et collaboratifs, du web classique aux outils plus expérimentaux.",
+      "projects.link":"Code source →",
+      "projects.p1.cat":"Application web · PHP/MySQL",
+      "projects.p1.desc":"Plateforme de petites annonces inspirée des sites de vente entre particuliers : inscription et connexion complètes, messagerie interne entre utilisateurs, et gestion des sessions sécurisée avec PDO.",
+      "projects.p2.title":"Quiz collaboratif","projects.p2.cat":"Application web · Sécurité applicative",
+      "projects.p2.desc":"Application de quiz en ligne collaborative dotée d'un système anti-triche : verrouillage plein écran, détection de changement d'onglet et minuteur de compte à rebours. Gestion des profils migrée vers PDO.",
+      "projects.p3.cat":"Outil local · IA multi-agents",
+      "projects.p3.desc":"Routeur multi-agents pour modèles de langage exécutés en local via Ollama, avec une interface Tkinter et une exécution de commandes shell encadrée par des filtres de sécurité.",
+      "projects.p4.cat":"Jeu vidéo · Unreal Engine 5 (co-développement)",
+      "projects.p4.desc":"Jeu d'horreur coopératif à la première personne développé avec un collègue sous Unreal Engine 5, aux mécaniques basées sur les miroirs. J'ai également conçu la page web de présentation du jeu, à l'esthétique tactique et sombre.",
+      "journey.eyebrow":"parcours","journey.heading":"Comment j'en suis arrivé là",
+      "journey.i1.title":"Développement web","journey.i1.desc":"Premiers projets en PHP, JavaScript et MySQL : plateformes web complètes, de l'inscription à la messagerie.",
+      "journey.i2.title":"Réseaux & infrastructure","journey.i2.desc":"Labs Cisco sur Packet Tracer : configuration RIP, subnetting, DHCP — les bases de l'administration réseau.",
+      "journey.i3.title":"Systèmes & Linux","journey.i3.desc":"Administration et personnalisation d'environnements Linux (Fedora), virtualisation avec KVM.",
+      "journey.i4.title":"Cybersécurité — prise en main","journey.i4.desc":"Environnement de test avec Kali Linux et Metasploitable2, reconnaissance avec Shodan et Maltego.",
+      "journey.i5.title":"Stage","journey.i5.desc":"Mise en pratique professionnelle des compétences en développement et en systèmes.",
+      "journey.i6.title":"Formation en cybersécurité","journey.i6.desc":"Prochaine étape : intégration d'une formation spécialisée en cybersécurité.",
+      "journey.badge_current":"En cours","journey.badge_upcoming":"À venir",
+      "contact.eyebrow":"contact","contact.heading":"Discutons",
+      "contact.text":"Ouvert aux opportunités de stage, d'alternance ou de collaboration. N'hésite pas à me contacter.",
+      "contact.email":"M'écrire",
+      "footer.text":"© 2026 Titouz — Conçu et développé à la main.",
+      "footer.status":"Disponible pour un stage ou une alternance"
+    },
+    en: {
+      "nav.about":"About","nav.skills":"Skills","nav.projects":"Projects","nav.journey":"Journey","nav.contact":"Contact",
+      "hero.eyebrow":"Computer Science Student — Cybersecurity & Web Dev",
+      "hero.tagline":"Web developer and soon-to-be cybersecurity apprentice. I like understanding how systems work — and how they break.",
+      "hero.cta_projects":"View my projects","hero.cta_contact":"Get in touch",
+      "about.eyebrow":"about","about.heading":"Build, understand, secure",
+      "about.p1":"I'm a computer science student who first built a foundation in web development (PHP, JavaScript, HTML/CSS) through personal and school projects, then expanded into networking (Cisco, Packet Tracer) and Linux system administration. I'm now preparing to join a cybersecurity training program, alongside an internship that lets me put what I learn into practice.",
+      "about.p2":"What drives me: understanding a system end-to-end — from the HTTP request to the routing table — to build it better, and defend it better.",
+      "skills.eyebrow":"skills","skills.heading":"What I can do",
+      "skills.cat1":"Web Development","skills.cat2":"Networking","skills.cat3":"Systems & Linux","skills.cat4":"Security Tooling",
+      "projects.eyebrow":"projects","projects.heading":"A selection of projects",
+      "projects.sub":"Personal and collaborative projects, from classic web apps to more experimental tools.",
+      "projects.link":"Source code →",
+      "projects.p1.cat":"Web app · PHP/MySQL",
+      "projects.p1.desc":"A classifieds marketplace platform inspired by peer-to-peer sales sites: full registration and login, an internal messaging system between users, and secure session management with PDO.",
+      "projects.p2.title":"Collaborative Quiz App","projects.p2.cat":"Web app · Application security",
+      "projects.p2.desc":"A collaborative online quiz app with a built-in anti-cheat system: enforced fullscreen mode, tab-switch detection, and a countdown timer. Profile management migrated to PDO.",
+      "projects.p3.cat":"Local tool · Multi-agent AI",
+      "projects.p3.desc":"A local multi-agent router for language models running through Ollama, with a Tkinter interface and shell command execution guarded by safety filters.",
+      "projects.p4.cat":"Video game · Unreal Engine 5 (co-development)",
+      "projects.p4.desc":"A cooperative first-person horror game built with a colleague in Unreal Engine 5, featuring mirror-based mechanics. I also designed the game's teaser website, with a dark tactical aesthetic.",
+      "journey.eyebrow":"journey","journey.heading":"How I got here",
+      "journey.i1.title":"Web development","journey.i1.desc":"First projects in PHP, JavaScript and MySQL: full web platforms, from sign-up to messaging.",
+      "journey.i2.title":"Networking & infrastructure","journey.i2.desc":"Cisco labs on Packet Tracer: RIP configuration, subnetting, DHCP — the basics of network administration.",
+      "journey.i3.title":"Systems & Linux","journey.i3.desc":"Administering and customizing Linux environments (Fedora), virtualization with KVM.",
+      "journey.i4.title":"Cybersecurity — getting hands-on","journey.i4.desc":"Test environment with Kali Linux and Metasploitable2, recon with Shodan and Maltego.",
+      "journey.i5.title":"Internship","journey.i5.desc":"Putting development and systems skills into practice in a professional setting.",
+      "journey.i6.title":"Cybersecurity training program","journey.i6.desc":"Next step: joining a specialized cybersecurity training program.",
+      "journey.badge_current":"Ongoing","journey.badge_upcoming":"Coming up",
+      "contact.eyebrow":"contact","contact.heading":"Let's talk",
+      "contact.text":"Open to internship, apprenticeship, and collaboration opportunities. Feel free to reach out.",
+      "contact.email":"Email me",
+      "footer.text":"© 2026 Titouz — Designed and built by hand.",
+      "footer.status":"Available for internship or apprenticeship opportunities"
+    }
+  };
+
+  let currentLang = 'fr';
+  const langToggle = document.getElementById('langToggle');
+
+  function applyLanguage(lang){
+    const dict = translations[lang];
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      const key = el.getAttribute('data-i18n');
+      if(dict[key] !== undefined){ el.textContent = dict[key]; }
+    });
+    document.documentElement.lang = lang;
+    langToggle.textContent = lang === 'fr' ? 'EN' : 'FR';
+    langToggle.setAttribute('aria-label', lang === 'fr' ? 'Switch to English' : 'Passer en français');
+    currentLang = lang;
+  }
+
+  langToggle.addEventListener('click', function(){
+    applyLanguage(currentLang === 'fr' ? 'en' : 'fr');
+  });
+
+  // Mobile nav
+  const navbar = document.getElementById('navbar');
+  const navToggle = document.getElementById('navToggle');
+  navToggle.addEventListener('click', function(){
+    const open = navbar.classList.toggle('menu-open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.querySelectorAll('#navLinks a').forEach(function(a){
+    a.addEventListener('click', function(){
+      navbar.classList.remove('menu-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(function(el){ observer.observe(el); });
+
+  applyLanguage('fr');
+})();
+</script>
+</body>
+</html>
